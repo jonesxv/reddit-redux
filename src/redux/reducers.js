@@ -22,18 +22,9 @@ const reducer = (state = initialState, action) => {
                 posts: action.payload
             }
         case FETCH_COMMENTS:
-            const commentsObj = {}
-            action.payload.forEach(comment => {
-                if (commentsObj[comment.post_id]) {
-                    commentsObj[comment.post_id].push(comment)
-                } else {
-                    commentsObj[comment.post_id] = []
-                    commentsObj[comment.post_id].push(comment)
-                }
-            })
             return {
                 ...state,
-                comments: commentsObj
+                comments: action.payload
             }
         case FILTER_POSTS:
             return {

@@ -1,7 +1,8 @@
 const fetch = require('node-fetch')
+const request = require('request');
 
 const postsUrl = 'http://localhost:8082/api/posts'
-const commentsUrl = 'http://localhost:8082/api/comments'
+const commentsUrl = 'http://localhost:8082/api/comments/'
 
 export const TOGGLE_FORM = 'TOGGLE_FORM'
 export const toggleForm = () => {
@@ -42,7 +43,16 @@ export const fetchComments = () => {
         fetch(commentsUrl)
             .then(data => data.json())
             .then(res => {
-                dispatch(sendData(res, FETCH_COMMENTS))
+                const comments = {}
+                res.forEach(comment => {
+                    if (comments[comment.post_id]) {
+                        comments[comment.post_id].push(comment)
+                    } else {
+                        comments[comment.post_id] = []
+                        comments[comment.post_id].push(comment)
+                    }
+                })
+                dispatch(sendData(comments, FETCH_COMMENTS))
             })
     }
 }
@@ -68,24 +78,50 @@ export const newPost = post => {
 export const ADD_COMMENT = 'ADD_COMMENT'
 export const addComment = ( id, text ) => {
     return dispatch => {
-        fetch(commentsUrl, {
+        // fetch(commentsUrl, {
+        //     method: 'POST',
+        //     data: JSON.stringify({
+        //         "content": text,
+        //         "post_id": id
+        //     }),
+        //     headers:{
+        //         'Content-Type': 'application/json',
+        //         'Cache-Control': 'no-cache',
+        //         "Accept": "*/*",
+        //     }
+        // })
+        
+            // .then(data => data.json())
+            // .then(res => {
+            //     console.log('comment', res)
+            //     dispatch(sendData({
+            //         post_id: id,
+            //         content: text,
+            //         id: res.id
+            //     }, ADD_COMMENT))
+            // })
+        var options = { 
             method: 'POST',
-            data: JSON.stringify({
-                content: text,
-                post_id: id
-            })
-        })
-            .then(data => {
-                return data.json()
-            })
-            .then(res => {
-                console.log('comment', res)
-                dispatch(sendData({
-                    post_id: id,
-                    content: text,
-                    id: res.id
-                }, ADD_COMMENT))
-            })
+            url: commentsUrl,
+            headers: { 
+                'cache-control': 'no-cache',
+                Connection: 'keep-alive',
+                'content-length': '44',
+                'accept-encoding': 'gzip, deflate',
+                Host: 'localhost:8082',
+                'Postman-Token': 'b1e02983-3af5-4fe8-9074-2d203d3ff367,a060635f-c62e-443a-943d-cee0f1d01ae0',
+                'Cache-Control': 'no-cache',
+                Accept: '*/*',
+                'User-Agent': 'PostmanRuntime/7.13.0',
+                'Content-Type': 'application/json' },
+            body: { content: text, post_id: id },
+            json: true 
+        };
+
+        request(options, function (error, response, body) {
+        if (error) throw new Error(error);
+        dispatch(sendData(body, ADD_COMMENT))
+        });
     }
 }
 
