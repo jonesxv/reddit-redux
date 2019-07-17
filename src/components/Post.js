@@ -16,7 +16,8 @@ import {
 } from 'reactstrap'
 import { FaComment } from 'react-icons/fa'
 import VoteContainer from '../redux/containers/VoteContainer';
-const Post = ({ author, content, createdAt, id, img_url, inCart, title, votes, comments }) => {
+import moment from 'moment';
+const Post = ({ author, content, createdAt, id, img_url, inCart, title, votes, comments, addComment }) => {
   return (
     <Row className="mt-3">
       <Col>
@@ -36,8 +37,10 @@ const Post = ({ author, content, createdAt, id, img_url, inCart, title, votes, c
               {content}
             </CardText>
               <hr />
-              {createdAt} | <FaComment /> {comments ? comments.length === 1 ? `${comments.length} Comment` : `${comments.length} Comments` : '0 Comments'} 
-              <Form inline>
+              {moment(createdAt).fromNow()} | <FaComment /> {comments ? comments.length === 1 ? `${comments.length} Comment` : `${comments.length} Comments` : '0 Comments'} 
+              <Form onSubmit={e => {
+                e.preventDefault()
+                addComment(id, e.target.comment.value)}} inline>
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                   <Input type="text" name="comment" id="comment-field" placeholder="Enter a comment here" />
                 </FormGroup>

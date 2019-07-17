@@ -2,13 +2,11 @@ const fetch = require('node-fetch')
 
 const postsUrl = 'http://localhost:8082/api/posts'
 const commentsUrl = 'http://localhost:8082/api/comments'
-// action type
-export const SAMPLE_ACTION = 'SAMPLE_ACTION'
-// action creator, which returns an action
-export const sampleAction = payload => {
+
+export const TOGGLE_FORM = 'TOGGLE_FORM'
+export const toggleForm = () => {
     return {
-        type: SAMPLE_ACTION,
-        payload
+        type: TOGGLE_FORM
     }
 }
 
@@ -18,19 +16,6 @@ export const loadingPosts = () => {
         type: LOADING_POSTS
     }
 }
-
-// export const ageUpAsnc = val => {
-//     return { type: "AGE_UP", value: val };
-//   };
-  
-//   export const ageUp = val => {
-//     return dispach => {
-//       dispach(loading());
-//       setTimeout(() => {
-//         dispach(ageUpAsnc(val));
-//       }, 5000);
-//     };
-//   };
 
 export const SEND_DATA = 'SEND_DATA'
 export const sendData = (data,action) => {
@@ -75,13 +60,45 @@ export const newPost = post => {
                     ...post,
                     ...res
                 }, NEW_POST))
+                dispatch(toggleForm())
             })
+    }
+}
+
+export const ADD_COMMENT = 'ADD_COMMENT'
+export const addComment = ( id, text ) => {
+    return dispatch => {
+        fetch(commentsUrl, {
+            method: 'POST',
+            data: JSON.stringify({
+                content: text,
+                post_id: id
+            })
+        })
+            .then(data => {
+                return data.json()
+            })
+            .then(res => {
+                console.log('comment', res)
+                dispatch(sendData({
+                    post_id: id,
+                    content: text,
+                    id: res.id
+                }, ADD_COMMENT))
+            })
+    }
+}
+
+export const FILTER_POSTS = 'FILTER_POSTS'
+export const filterPosts = keyword => {
+    return {
+        type: FILTER_POSTS,
+        payload: keyword
     }
 }
 
 export const UP_VOTE = 'UP_VOTE'
 export const upVote = id => {
-    console.log(id)
     return dispatch => {
         fetch(`${postsUrl}/votes/increase/${id}`)
             .then(data => data.json())

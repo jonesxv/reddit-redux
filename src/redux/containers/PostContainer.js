@@ -1,16 +1,23 @@
 import { connect } from 'react-redux'
 import Main from '../../components/Main';
-import { newPost, fetchPosts, fetchComments } from '../actions'
+import { newPost, fetchPosts, fetchComments, addComment, toggleForm } from '../actions'
 
 const mapStateToProps = state => {
     return {
         posts: state.posts,
-        comments: state.comments
+        comments: state.comments,
+        addFormClass: state.addFormClass,
+        filteredPosts: state.filteredPosts
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
+        toggleForm: () => {
+            return dispatch(
+                toggleForm()
+            )
+        },
         fetchPosts: () => {
             return dispatch(
                 fetchPosts()
@@ -24,6 +31,11 @@ const mapDispatchToProps = dispatch => {
         newPost: post => {
             return dispatch(
                 newPost(post)
+            )
+        },
+        addComment: (id, text) => {
+            return dispatch(
+                addComment(id, text)
             )
         }
     }
