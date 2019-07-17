@@ -11,12 +11,32 @@ class Main extends Component {
     this.props.fetchComments()
   }
 
+  compareVotes = (a, b) => {
+    const voteA = parseInt(a.votes)
+    const voteB = parseInt(b.votes)
+  
+    let comparison = 0;
+    if (voteA < voteB) {
+      comparison = 1;
+    } else if (voteA > voteB) {
+      comparison = -1;
+    }
+    return comparison;
+  }
+
+  sortPosts = arr => {
+    const posts = this.props.posts
+    return posts.sort(this.compareVotes)
+  }
+
   render() {
-    const postsList = this.props.posts.map(post => {
-      return <Post {...post} addComment={this.props.addComment} comments={this.props.comments[post.id]} />
+    const posts = this.sortPosts(this.props.posts)
+    const filtered = this.sortPosts(this.props.filteredPosts)
+    const postsList = posts.map(post => {
+      return <Post key={post.id} {...post} addComment={this.props.addComment} comments={this.props.comments[post.id]} />
     })
-    const filteredPosts = this.props.filteredPosts.map(post => {
-      return <Post {...post} addComment={this.props.addComment} comments={this.props.comments[post.id]} />
+    const filteredPosts = filtered.map(post => {
+      return <Post key={post.id} {...post} addComment={this.props.addComment} comments={this.props.comments[post.id]} />
     })
     return (
       <Container className="mt-4">
@@ -35,7 +55,7 @@ class Main extends Component {
         </Row>
         <Row>
           <Col className="pr-0" sm={{size: 9, offset: 1}}>
-            {this.props.filteredPosts.length > 0 ? filteredPosts : postsList}
+            {this.props.filterKeyword.length > 0 ? filteredPosts : postsList}
           </Col>
         </Row>
       </Container>

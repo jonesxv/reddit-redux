@@ -15,3 +15,11 @@ form {
 .show {
   display: block;
 }
+
+.inline {
+  display: inline;
+}
+
+.outline {
+  border: solid 1px red;
+}

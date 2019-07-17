@@ -1,4 +1,4 @@
-import { NEW_POST, LOADING_POSTS, FETCH_POSTS, UP_VOTE, DOWN_VOTE, FETCH_COMMENTS, ADD_COMMENT, TOGGLE_FORM, FILTER_POSTS } from './actions'
+import { NEW_POST, FETCH_POSTS, UP_VOTE, DOWN_VOTE, FETCH_COMMENTS, ADD_COMMENT, TOGGLE_FORM, FILTER_POSTS } from './actions'
 
 const initialState = {
     posts: [],
@@ -54,7 +54,8 @@ const reducer = (state = initialState, action) => {
                 posts: [
                     ...state.posts,
                     action.payload
-                ]
+                ],
+                filterKeyword: ''
             }
         case ADD_COMMENT:
             return {

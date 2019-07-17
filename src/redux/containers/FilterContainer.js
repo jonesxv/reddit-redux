@@ -4,7 +4,7 @@ import FilterPosts from '../../components/FilterPosts';
 
 const mapStateToProps = state => {
     return {
-        posts: state.posts
+        posts: state.posts,
     }
 }
 

@@ -7,7 +7,8 @@ const mapStateToProps = state => {
         posts: state.posts,
         comments: state.comments,
         addFormClass: state.addFormClass,
-        filteredPosts: state.filteredPosts
+        filteredPosts: state.filteredPosts,
+        filterKeyword: state.filterKeyword
     }
 }
 
