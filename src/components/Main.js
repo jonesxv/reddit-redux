@@ -25,7 +25,7 @@ class Main extends Component {
   }
 
   sortPosts = arr => {
-    const posts = this.props.posts
+    const posts = arr
     return posts.sort(this.compareVotes)
   }
 
@@ -33,10 +33,10 @@ class Main extends Component {
     const posts = this.sortPosts(this.props.posts)
     const filtered = this.sortPosts(this.props.filteredPosts)
     const postsList = posts.map(post => {
-      return <Post key={post.id} {...post} addComment={this.props.addComment} comments={this.props.comments[post.id]} />
+      return <Post key={`post${post.id}`} {...post} addComment={this.props.addComment} comments={this.props.comments[post.id]} />
     })
     const filteredPosts = filtered.map(post => {
-      return <Post key={post.id} {...post} addComment={this.props.addComment} comments={this.props.comments[post.id]} />
+      return <Post key={`filter${post.id}`} {...post} addComment={this.props.addComment} comments={this.props.comments[post.id]} />
     })
     return (
       <Container className="mt-4">

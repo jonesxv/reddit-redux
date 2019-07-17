@@ -78,28 +78,6 @@ export const newPost = post => {
 export const ADD_COMMENT = 'ADD_COMMENT'
 export const addComment = ( id, text ) => {
     return dispatch => {
-        // fetch(commentsUrl, {
-        //     method: 'POST',
-        //     data: JSON.stringify({
-        //         "content": text,
-        //         "post_id": id
-        //     }),
-        //     headers:{
-        //         'Content-Type': 'application/json',
-        //         'Cache-Control': 'no-cache',
-        //         "Accept": "*/*",
-        //     }
-        // })
-        
-            // .then(data => data.json())
-            // .then(res => {
-            //     console.log('comment', res)
-            //     dispatch(sendData({
-            //         post_id: id,
-            //         content: text,
-            //         id: res.id
-            //     }, ADD_COMMENT))
-            // })
         var options = { 
             method: 'POST',
             url: commentsUrl,
