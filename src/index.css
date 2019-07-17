@@ -1,0 +1,17 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+form {
+  transition-duration: display 1s;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
+}

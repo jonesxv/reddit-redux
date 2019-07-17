@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
-import SampleContainer from './redux/containers/SampleContainer'
+
+import Nav from './components/Nav';
+import PostContainer from './redux/containers/PostContainer';
+
 
 class App extends Component {
   render() {
     return (
       <div>
-        <SampleContainer />
+        <Nav />
+        <PostContainer />
       </div>
     );
   }
